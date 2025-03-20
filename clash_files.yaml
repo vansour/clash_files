@@ -1,5 +1,5 @@
 mixed-port: 7890
-allow-lan: false
+proow-lan: false
 bind-address: '*'
 mode: rule
 log-level: info
@@ -14,16 +14,15 @@ dns:
     fake-ip-range: 198.18.0.1/16
     use-hosts: true
     nameserver: ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query']
-    fallback: ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query']
-    fallback-filter: { geoip: true, ipcidr: [240.0.0.0/4, 0.0.0.0/32] }
+    fproback: ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query']
+    fproback-filter: { geoip: true, ipcidr: [240.0.0.0/4, 0.0.0.0/32] }
 
 proxy-providers:
-  ALL:
+  all:
     type: http
     path: ./proxy_providers/all.yaml
-    url: "https://sub.vansour.top/vansour"
+    url: "https://substore.vansour.top/vansour/download/collection/clash?target=V2Ray"
     interval: 1800
-    #filter: 'Hong Kong'
     health-check:
       enable: true
       url: http://www.google.com/generate_204
@@ -32,31 +31,121 @@ proxy-providers:
 proxy-groups:
   - name: MainNode
     type: select
+    proxies:
+      - 自建
+      - 备用
+      - 美国
+      - 英国
+      - 香港
+      - 台湾
+      - 日本
+      - 新加坡
+      - 韩国
+  
+  - name: 自建
+    type: select
+    filter: '自建'
     use:
-      - ALL
+      - all
+
+  - name: 备用
+    type: load-balance
+    filter: '备用'
+    strategy: round-robin
+    use:
+      - all
+
+  - name: 美国
+    type: load-balance
+    filter: '美国'
+    exclude-filter: '自建'
+    strategy: round-robin
+    use:
+      - all
+    
+  - name: 英国
+    type: load-balance
+    filter: '英国'
+    exclude-filter: '自建'
+    strategy: round-robin
+    use:
+      - all
 
   - name: 香港
     type: load-balance
     filter: '香港'
+    exclude-filter: '自建'
+    strategy: round-robin
     use:
-      - ALL
+      - all
+  
+  - name: 台湾
+    type: load-balance
+    filter: '台湾'
+    exclude-filter: '自建'
+    strategy: round-robin
+    use:
+      - all
+
+  - name: 日本
+    type: load-balance
+    filter: '日本'
+    exclude-filter: '自建'
+    strategy: round-robin
+    use:
+      - all
+
+  - name: 新加坡
+    type: load-balance
+    filter: '新加坡'
+    exclude-filter: '自建'
+    strategy: round-robin
+    use:
+      - all
+
+  - name: 韩国
+    type: load-balance
+    filter: '韩国'
+    exclude-filter: '自建'
+    strategy: round-robin
+    use:
+      - all
+
+  - name: Youtube
+    type: select
+    proxies:
+      - 自建
+      - 美国
+      - 英国
+      - 香港
+      - 台湾
+      - 日本
+      - 新加坡
+      - 韩国
 
 rule-providers:
   ip_cn:
     type: http
     behavior: ipcidr
-    url: "https://github.com/vansour/geo-rules/raw/refs/heads/main/geo/geoip/ip_cn.txt"
+    url: "https://gitee.com/vansour/geo-rules/raw/main/geo/geoip/ip_cn.txt"
     path: ./rule_providers/ip_cn.yaml
     interval: 86400
 
   ip_hk:
     type: http
     behavior: ipcidr
-    url: "https://github.com/vansour/geo-rules/raw/refs/heads/main/geo/geoip/ip_hk.txt"
+    url: "https://gitee.com/vansour/geo-rules/raw/main/geo/geoip/ip_hk.txt"
     path: ./rule_providers/ip_hk.yaml
+    interval: 86400
+
+  domain_youtube:
+    type: http
+    behavior: domain
+    url: "https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_youtube.txt"
+    path: ./rule_providers/site_youbute.yaml
     interval: 86400
 
 rules:
   - RULE-SET,ip_cn,DIRECT
-  - RULE-SET,ip_hk,香港
+  - RULE-SET,domain_youtube,Youtube
   - MATCH,MainNode
