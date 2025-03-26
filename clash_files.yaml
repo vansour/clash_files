@@ -3,190 +3,163 @@ allow-lan: false
 bind-address: '*'
 mode: rule
 log-level: info
-external-controller: '127.0.0.1:9090'
+external-controller: 127.0.0.1:9090
 unified-delay: true
 tcp-concurrent: true
-
 dns:
   enable: true
   ipv6: false
-  default-nameserver: [119.29.29.29, 8.8.8.8]
+  default-nameserver:
+  - 119.29.29.29
+  - 8.8.8.8
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   use-hosts: true
-  nameserver: 
-    - 'https://doh.pub/dns-query'
-    - 'https://dns.google/dns-query'
+  nameserver:
+  - https://doh.pub/dns-query
+  - https://dns.alidns.com/dns-query
+  - https://dns.google/dns-query
   fallback:
-    - 'https://doh.pub/dns-query'
-    - 'https://dns.google/dns-query'
+  - https://doh.pub/dns-query
+  - https://dns.alidns.com/dns-query
+  - https://dns.google/dns-query
   fallback-filter:
     geoip: true
-    ipcidr: 
-      - 240.0.0.0/4
-      - 224.0.0.0/4
-
+    ipcidr:
+    - 240.0.0.0/4
+    - 224.0.0.0/4
 proxy-providers:
-  all:
+  V1:
     type: http
-    path: ./proxy_providers/all.yaml
-    url: 'https://sub.vansour.top/vansour'
+    path: ./proxy_providers/v1.yaml
+    url: https://sub.vansour.top/v1
     interval: 1800
     health-check:
       enable: true
-      url: 'http://www.gstatic.com/generate_204'
+      url: http://www.gstatic.com/generate_204
       interval: 300
-
+  V2:
+    type: http
+    path: ./proxy_providers/v2.yaml
+    url: https://sub.vansour.top/v2
+    interval: 1800
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+  V3:
+    type: http
+    path: ./proxy_providers/v3.yaml
+    url: https://sub.vansour.top/v3
+    interval: 1800
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
 proxy-groups:
-  - name: MainNode
-    type: select
-    proxies:
-      - 专线
-      - 直连
-      - 美国
-      - 英国
-      - 香港
-      - 台湾
-      - 日本
-      - 新加坡
-
-  - name: Youtube
-    type: select
-    proxies:
-      - 专线
-      - 直连
-      - 美国
-      - 英国
-      - 香港
-      - 台湾
-      - 日本
-      - 新加坡
-
-  - name: Github
-    type: fallback
-    filter: '(?i)专线'
-    url: 'http://api.github.com'
-    interval: 300
-    use:
-      - all
-  
-  - name: 专线
-    type: select
-    filter: '(?i)专线'
-    use:
-      - all
-
-  - name: 直连
-    type: select
-    filter: '(?i)直连'
-    use:
-      - all
-
-  - name: 美国
-    type: load-balance
-    filter: '(?i)美国'
-    exclude-filter: '(?i)专线|直连'
-    strategy: round-robin
-    url: 'http://www.gstatic.com/generate_204'
-    use:
-      - all
-    
-  - name: 英国
-    type: load-balance
-    filter: '(?i)英国'
-    exclude-filter: '(?i)专线|直连'
-    strategy: round-robin
-    url: 'http://www.gstatic.com/generate_204'
-    use:
-      - all
-
-  - name: 香港
-    type: load-balance
-    filter: '(?i)香港'
-    exclude-filter: '(?i)专线|直连'
-    strategy: round-robin
-    url: 'http://www.gstatic.com/generate_204'
-    use:
-      - all
-  
-  - name: 台湾
-    type: load-balance
-    filter: '(?i)台湾'
-    exclude-filter: '(?i)专线|直连'
-    strategy: round-robin
-    url: 'http://www.gstatic.com/generate_204'
-    use:
-      - all
-
-  - name: 日本
-    type: load-balance
-    filter: '(?i)日本'
-    exclude-filter: '(?i)专线|直连'
-    strategy: round-robin
-    url: 'http://www.gstatic.com/generate_204'
-    use:
-      - all
-
-  - name: 新加坡
-    type: load-balance
-    filter: '(?i)新加坡'
-    exclude-filter: '(?i)专线|直连'
-    strategy: round-robin
-    url: 'http://www.gstatic.com/generate_204'
-    use:
-      - all
-
-
-  - name: Final
-    type: select
-    proxies:
-      - MainNode
-      - DIRECT
-
-
+- name: MainNode
+  type: select
+  use:
+  - V1
+  - V2
+  proxies:
+  - V3 US
+  - V3 HK
+  - V3 TW
+  - V3 JP
+  - V3 SG
+- name: Youtube
+  type: select
+  use:
+  - V1
+  - V2
+  proxies:
+  - V3 US
+  - V3 HK
+  - V3 TW
+  - V3 JP
+  - V3 SG
+- name: Github
+  type: fallback
+  url: http://api.github.com
+  interval: 300
+  use:
+  - V1
+- name: V3 US
+  type: load-balance
+  filter: (?i)US
+  strategy: round-robin
+  url: http://www.gstatic.com/generate_204
+  use:
+  - V3
+- name: V3 HK
+  type: load-balance
+  filter: (?i)HK
+  strategy: round-robin
+  url: http://www.gstatic.com/generate_204
+  use:
+  - V3
+- name: V3 TW
+  type: load-balance
+  filter: (?i)TW
+  strategy: round-robin
+  url: http://www.gstatic.com/generate_204
+  use:
+  - V3
+- name: V3 JP
+  type: load-balance
+  filter: (?i)JP
+  strategy: round-robin
+  url: http://www.gstatic.com/generate_204
+  use:
+  - V3
+- name: V3 SG
+  type: load-balance
+  filter: (?i)SG
+  strategy: round-robin
+  url: http://www.gstatic.com/generate_204
+  use:
+  - V3
+- name: Final
+  type: select
+  proxies:
+  - MainNode
+  - DIRECT
 rule-providers:
-
   domain_category-ads-all:
     type: http
     behavior: domain
-    url: 'https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_category-ads-all.txt'
+    url: https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_category-ads-all.txt
     path: ./rule_providers/site_category-ads-all.yaml
     interval: 86400
-
   ip_private:
     type: http
     behavior: ipcidr
-    url: 'https://gitee.com/vansour/geo-rules/raw/main/geo/geoip/ip_private.txt'
+    url: https://gitee.com/vansour/geo-rules/raw/main/geo/geoip/ip_private.txt
     path: ./rule_providers/ip_private.yaml
     interval: 86400
-
   ip_cn:
     type: http
     behavior: ipcidr
-    url: 'https://gitee.com/vansour/geo-rules/raw/main/geo/geoip/ip_cn.txt'
+    url: https://gitee.com/vansour/geo-rules/raw/main/geo/geoip/ip_cn.txt
     path: ./rule_providers/ip_cn.yaml
     interval: 86400
-
-
   domain_youtube:
     type: http
     behavior: domain
-    url: 'https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_youtube.txt'
+    url: https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_youtube.txt
     path: ./rule_providers/site_youbute.yaml
     interval: 86400
-
   domain_github:
     type: http
     behavior: domain
-    url: 'https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_github.txt'
+    url: https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_github.txt
     path: ./rule_providers/site_github.yaml
     interval: 86400
-
-
 rules:
-  - RULE-SET,ip_private,DIRECT
-  - RULE-SET,ip_cn,DIRECT
-  - RULE-SET,domain_category-ads-all,REJECT
-  - RULE-SET,domain_youtube,Youtube
-  - RULE-SET,domain_github,Github
-  - MATCH,Final
+- RULE-SET,ip_private,DIRECT
+- RULE-SET,ip_cn,DIRECT
+- RULE-SET,domain_category-ads-all,REJECT
+- RULE-SET,domain_youtube,Youtube
+- RULE-SET,domain_github,Github
+- MATCH,Final
