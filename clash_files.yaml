@@ -66,8 +66,7 @@ proxy-groups:
   - V3 US
   - V3 HK
   - V3 TW
-  - V3 JP
-  - V3 SG
+
 - name: Youtube
   type: select
   use:
@@ -77,8 +76,7 @@ proxy-groups:
   - V3 US
   - V3 HK
   - V3 TW
-  - V3 JP
-  - V3 SG
+
 - name: Github
   type: fallback
   url: http://api.github.com
@@ -102,20 +100,6 @@ proxy-groups:
 - name: V3 TW
   type: load-balance
   filter: (?i)TW
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V3
-- name: V3 JP
-  type: load-balance
-  filter: (?i)JP
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V3
-- name: V3 SG
-  type: load-balance
-  filter: (?i)SG
   strategy: round-robin
   url: http://www.gstatic.com/generate_204
   use:
