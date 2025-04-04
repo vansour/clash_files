@@ -6,118 +6,132 @@ log-level: info
 external-controller: 127.0.0.1:9090
 unified-delay: true
 tcp-concurrent: true
+
 dns:
   enable: true
   ipv6: false
   default-nameserver:
-  - 119.29.29.29
-  - 8.8.8.8
+    - 119.29.29.29
+    - 8.8.8.8
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   use-hosts: true
   nameserver:
-  - https://doh.pub/dns-query
-  - https://dns.alidns.com/dns-query
-  - https://dns.google/dns-query
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+    - https://dns.google/dns-query
   fallback:
-  - https://doh.pub/dns-query
-  - https://dns.alidns.com/dns-query
-  - https://dns.google/dns-query
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+    - https://dns.google/dns-query
   fallback-filter:
     geoip: true
     ipcidr:
-    - 240.0.0.0/4
-    - 224.0.0.0/4
+      - 240.0.0.0/4
+      - 224.0.0.0/4
+
 proxy-providers:
   V1:
     type: http
-    path: ./proxy_providers/v1.yaml
     url: https://sub.vansour.top/v1
+    path: ./proxy_providers/v1.yaml
     interval: 1800
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 300
+
   V2:
     type: http
-    path: ./proxy_providers/v2.yaml
     url: https://sub.vansour.top/v2
+    path: ./proxy_providers/v2.yaml
     interval: 1800
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 300
+
 proxy-groups:
-- name: MainNode
-  type: select
-  use:
-  - V1
-  proxies:
-  - V2 US
-  - V2 HK
-  - V2 TW
-- name: Youtube
-  type: select
-  use:
-  - V1
-  proxies:
-  - V2 US
-  - V2 HK
-  - V2 TW
-- name: V2 US
-  type: load-balance
-  filter: (?i)US
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V2
-- name: V2 UK
-  type: load-balance
-  filter: (?i)UK
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V2
-- name: V2 HK
-  type: load-balance
-  filter: (?i)HK
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V2
-- name: V2 TW
-  type: load-balance
-  filter: (?i)TW
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V2
-- name: V2 JP
-  type: load-balance
-  filter: (?i)JP
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V2
-- name: V2 KR
-  type: load-balance
-  filter: (?i)KR
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V2
-- name: V2 SG
-  type: load-balance
-  filter: (?i)SG
-  strategy: round-robin
-  url: http://www.gstatic.com/generate_204
-  use:
-  - V2
-- name: Final
-  type: select
-  proxies:
-  - MainNode
-  - DIRECT
+  - name: MainNode
+    type: select
+    use:
+      - V1
+    proxies:
+      - V2 US
+      - V2 HK
+      - V2 TW
+
+  - name: Youtube
+    type: select
+    use:
+      - V1
+    proxies:
+      - V2 US
+      - V2 HK
+      - V2 TW
+
+  - name: V2 US
+    type: load-balance
+    filter: (?i)US
+    strategy: round-robin
+    url: http://www.gstatic.com/generate_204
+    use:
+      - V2
+
+  - name: V2 UK
+    type: load-balance
+    filter: (?i)UK
+    strategy: round-robin
+    url: http://www.gstatic.com/generate_204
+    use:
+      - V2
+
+  - name: V2 HK
+    type: load-balance
+    filter: (?i)HK
+    strategy: round-robin
+    url: http://www.gstatic.com/generate_204
+    use:
+      - V2
+
+  - name: V2 TW
+    type: load-balance
+    filter: (?i)TW
+    strategy: round-robin
+    url: http://www.gstatic.com/generate_204
+    use:
+      - V2
+
+  - name: V2 JP
+    type: load-balance
+    filter: (?i)JP
+    strategy: round-robin
+    url: http://www.gstatic.com/generate_204
+    use:
+      - V2
+
+  - name: V2 KR
+    type: load-balance
+    filter: (?i)KR
+    strategy: round-robin
+    url: http://www.gstatic.com/generate_204
+    use:
+      - V2
+
+  - name: V2 SG
+    type: load-balance
+    filter: (?i)SG
+    strategy: round-robin
+    url: http://www.gstatic.com/generate_204
+    use:
+      - V2
+
+  - name: Final
+    type: select
+    proxies:
+      - MainNode
+      - DIRECT
+
 rule-providers:
   domain_category-ads-all:
     type: http
@@ -125,27 +139,31 @@ rule-providers:
     url: https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_category-ads-all.txt
     path: ./rule_providers/site_category-ads-all.yaml
     interval: 86400
+
   ip_private:
     type: http
     behavior: ipcidr
     url: https://gitee.com/vansour/geo-rules/raw/main/geo/geoip/ip_private.txt
     path: ./rule_providers/ip_private.yaml
     interval: 86400
+
   ip_cn:
     type: http
     behavior: ipcidr
     url: https://gitee.com/vansour/geo-rules/raw/main/geo/geoip/ip_cn.txt
     path: ./rule_providers/ip_cn.yaml
     interval: 86400
+
   domain_youtube:
     type: http
     behavior: domain
     url: https://gitee.com/vansour/geo-rules/raw/main/geo/geosite/site_youtube.txt
-    path: ./rule_providers/site_youbute.yaml
+    path: ./rule_providers/site_youtube.yaml
     interval: 86400
+
 rules:
-- RULE-SET,ip_private,DIRECT
-- RULE-SET,ip_cn,DIRECT
-- RULE-SET,domain_category-ads-all,REJECT
-- RULE-SET,domain_youtube,Youtube
-- MATCH,Final
+  - RULE-SET,ip_private,DIRECT
+  - RULE-SET,ip_cn,DIRECT
+  - RULE-SET,domain_category-ads-all,REJECT
+  - RULE-SET,domain_youtube,Youtube
+  - MATCH,Final
