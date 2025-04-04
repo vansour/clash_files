@@ -12,6 +12,7 @@ dns:
   ipv6: false
   default-nameserver:
     - 119.29.29.29
+    - 223.5.5.5
     - 8.8.8.8
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
@@ -58,8 +59,12 @@ proxy-groups:
       - V1
     proxies:
       - V2 US
+      - V2 UK
       - V2 HK
       - V2 TW
+      - V2 JP
+      - V2 KR
+      - V2 SG
 
   - name: Youtube
     type: select
@@ -67,8 +72,12 @@ proxy-groups:
       - V1
     proxies:
       - V2 US
+      - V2 UK
       - V2 HK
       - V2 TW
+      - V2 JP
+      - V2 KR
+      - V2 SG
 
   - name: V2 US
     type: load-balance
