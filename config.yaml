@@ -53,93 +53,87 @@ proxy-providers:
       interval: 300
 
 proxy-groups:
-  - name: MainNode
+  - name: 主用
     type: select
     use:
       - V1
     proxies:
-      - V2 US
-      - V2 UK
-      - V2 HK
-      - V2 TW
-      - V2 JP
-      - V2 KR
-      - V2 SG
+      - 美国
+      - 英国
+      - 香港
+      - 台湾
+      - 日本
+      - 韩国
+      - 新加坡
 
   - name: Youtube
     type: select
     use:
       - V1
     proxies:
-      - V2 US
-      - V2 UK
-      - V2 HK
-      - V2 TW
-      - V2 JP
-      - V2 KR
-      - V2 SG
+      - 美国
+      - 英国
+      - 香港
+      - 台湾
+      - 日本
+      - 韩国
+      - 新加坡
 
-  - name: V2 US
+  - name: 美国
     type: load-balance
-    filter: (?i)US
+    filter: (?i)美国
     strategy: round-robin
     url: http://www.gstatic.com/generate_204
     use:
       - V2
 
-  - name: V2 UK
+  - name: 英国
     type: load-balance
-    filter: (?i)UK
+    filter: (?i)英国
     strategy: round-robin
     url: http://www.gstatic.com/generate_204
     use:
       - V2
 
-  - name: V2 HK
+  - name: 香港
     type: load-balance
-    filter: (?i)HK
+    filter: (?i)香港
     strategy: round-robin
     url: http://www.gstatic.com/generate_204
     use:
       - V2
 
-  - name: V2 TW
+  - name: 台湾
     type: load-balance
-    filter: (?i)TW
+    filter: (?i)台湾
     strategy: round-robin
     url: http://www.gstatic.com/generate_204
     use:
       - V2
 
-  - name: V2 JP
+  - name: 日本
     type: load-balance
-    filter: (?i)JP
+    filter: (?i)日本
     strategy: round-robin
     url: http://www.gstatic.com/generate_204
     use:
       - V2
 
-  - name: V2 KR
+  - name: 韩国
     type: load-balance
-    filter: (?i)KR
+    filter: (?i)韩国
     strategy: round-robin
     url: http://www.gstatic.com/generate_204
     use:
       - V2
 
-  - name: V2 SG
+  - name: 新加坡
     type: load-balance
-    filter: (?i)SG
+    filter: (?i)新加坡
     strategy: round-robin
     url: http://www.gstatic.com/generate_204
     use:
       - V2
-
-  - name: Final
-    type: select
-    proxies:
-      - MainNode
-      - DIRECT
 
 rule-providers:
   domain_category-ads-all:
@@ -175,4 +169,4 @@ rules:
   - RULE-SET,ip_cn,DIRECT
   - RULE-SET,domain_category-ads-all,REJECT
   - RULE-SET,domain_youtube,Youtube
-  - MATCH,Final
+  - MATCH,主用
