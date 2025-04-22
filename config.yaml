@@ -10,15 +10,15 @@ dns:
   ipv6: false
   use-hosts: true
   default-nameserver:
-    - 223.5.5.5
+    - 119.29.29.29
     - 8.8.8.8
   nameserver:
-    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
     - https://dns.google/dns-query
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fallback:
-    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
     - https://dns.google/dns-query
   fallback-filter:
     geoip: true
@@ -70,16 +70,6 @@ proxy-providers:
       url: http://www.gstatic.com/generate_204
       interval: 300
 
-  ustest:
-    type: http
-    url: https://sub.vansour.top/ustest
-    path: ./proxy_providers/ustest.yaml
-    interval: 1800
-    health-check:
-      enable: true
-      url: http://www.gstatic.com/generate_204
-      interval: 300
-
   V2:
     type: http
     url: https://sub.vansour.top/v2
@@ -106,8 +96,6 @@ proxy-groups:
 
   - name: Youtube
     type: select
-    use:
-      - ustest
     proxies:
       - 主用 04 美国 00
       - 主用 04 英国 00
