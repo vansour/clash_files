@@ -1,3 +1,5 @@
+#update time: 04/25/2025
+
 mixed-port: 9001
 allow-lan: false
 bind-address: '*'
@@ -30,16 +32,6 @@ dns:
 
 # 代理订阅
 proxy-providers:
-  V1:
-    type: http
-    url: https://sub.vansour.top/v1
-    path: ./proxy_providers/v1.yaml
-    interval: 1800
-    health-check:
-      enable: true
-      url: http://www.gstatic.com/generate_204
-      interval: 300
-
   hkpre:
     type: http
     url: https://sub.vansour.top/hkpre
