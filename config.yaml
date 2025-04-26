@@ -62,6 +62,16 @@ proxy-providers:
       url: http://www.gstatic.com/generate_204
       interval: 300
 
+  V1:
+    type: http
+    url: https://sub.vansour.top/v1
+    path: ./proxy_providers/v1.yaml
+    interval: 1800
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+
   V2:
     type: http
     url: https://sub.vansour.top/v2
