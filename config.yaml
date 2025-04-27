@@ -238,8 +238,8 @@ rule-providers:
 
 # 规则
 rules:
-  - RULE-SET,ip_private,DIRECT
-  - RULE-SET,ip_cn,DIRECT
+  - RULE-SET,ip_private,DIRECT,no-resolve
+  - RULE-SET,ip_cn,DIRECT,no-resolve
   - RULE-SET,domain_category-ads-all,REJECT
   - RULE-SET,domain_youtube,Youtube
   - RULE-SET,domain_github,Github
