@@ -243,6 +243,13 @@ rule-providers:
     path: ./rule_providers/ipcidr_hk.yaml
     interval: 86400
 
+  ipcidr_cn:
+    type: http
+    behavior: ipcidr
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/cn.yaml
+    path: ./rule_providers/ipcidr_cn.yaml
+    interval: 86400
+
 # 规则
 rules:
   - RULE-SET,domain_category-ads-all,REJECT
@@ -252,6 +259,7 @@ rules:
   - RULE-SET,domain_cloudflare,Cloudflare
   - RULE-SET,domain_openai,Openai
   - RULE-SET,ipcidr_hk,HK
+  - RULE-SET,ipcidr_cn,DIRECT
   - MATCH,MainNode
 
 unified-delay: true
