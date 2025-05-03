@@ -89,22 +89,22 @@ proxy-groups:
     use:
       - V1
     proxies:
-      - 主用 04 美国 00
-      - 主用 04 英国 00
-      - 主用 04 香港 00
-      - 主用 04 日本 00
-      - 主用 04 韩国 00
-      - 主用 04 新加坡 00
+      - 主用 03 美国 00
+      - 主用 03 英国 00
+      - 主用 03 香港 00
+      - 主用 03 日本 00
+      - 主用 03 韩国 00
+      - 主用 03 新加坡 00
 
   - name: Youtube
     type: select
     proxies:
-      - 主用 04 美国 00
-      - 主用 04 英国 00
-      - 主用 04 香港 00
-      - 主用 04 日本 00
-      - 主用 04 韩国 00
-      - 主用 04 新加坡 00
+      - 主用 03 美国 00
+      - 主用 03 英国 00
+      - 主用 03 香港 00
+      - 主用 03 日本 00
+      - 主用 03 韩国 00
+      - 主用 03 新加坡 00
 
   - name: Github
     type: select
@@ -132,7 +132,7 @@ proxy-groups:
 
 
   # 地区分组，自动测速筛选最快节点
-  - name: 主用 04 美国 00
+  - name: 主用 03 美国 00
     type: url-test
     use:
       - V2
@@ -142,7 +142,7 @@ proxy-groups:
     strategy: round-robin
     hidden: true
 
-  - name: 主用 04 英国 00
+  - name: 主用 03 英国 00
     type: url-test
     use:
       - V2
@@ -152,7 +152,7 @@ proxy-groups:
     strategy: round-robin
     hidden: true
 
-  - name: 主用 04 香港 00
+  - name: 主用 03 香港 00
     type: url-test
     use:
       - V2
@@ -162,7 +162,7 @@ proxy-groups:
     strategy: round-robin
     hidden: true
 
-  - name: 主用 04 日本 00
+  - name: 主用 03 日本 00
     type: url-test
     use:
       - V2
@@ -172,7 +172,7 @@ proxy-groups:
     strategy: round-robin
     hidden: true
 
-  - name: 主用 04 韩国 00
+  - name: 主用 03 韩国 00
     type: url-test
     use:
       - V2
@@ -182,7 +182,7 @@ proxy-groups:
     strategy: round-robin
     hidden: true
 
-  - name: 主用 04 新加坡 00
+  - name: 主用 03 新加坡 00
     type: url-test
     use:
       - V2
