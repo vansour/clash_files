@@ -84,7 +84,7 @@ proxy-providers:
 
 # 代理分组
 proxy-groups:
-  - name: 主用
+  - name: MainNode
     type: select
     use:
       - V1
@@ -122,6 +122,13 @@ proxy-groups:
     type: select
     use:
       - uspre
+
+  - name: HK
+    type: select
+    use:
+      - hkpre
+    proxies:
+      - MainNode
 
 
   # 地区分组，自动测速筛选最快节点
@@ -229,6 +236,13 @@ rule-providers:
     path: ./rule_providers/domain_openai.yaml
     interval: 86400
 
+  ipcidr_hk:
+    type: http
+    behavior: ipcidr
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/hk.yaml
+    path: ./rule_providers/ipcidr_hk.yaml
+    interval: 86400
+
 # 规则
 rules:
   - RULE-SET,domain_category-ads-all,REJECT
@@ -237,7 +251,8 @@ rules:
   - RULE-SET,domain_github,Github
   - RULE-SET,domain_cloudflare,Cloudflare
   - RULE-SET,domain_openai,Openai
-  - MATCH,主用
+  - RULE-SET,ipcidr_hk,HK
+  - MATCH,MainNode
 
 unified-delay: true
 tcp-concurrent: true
