@@ -188,49 +188,49 @@ rule-providers:
   domain_category-ads-all:
     type: http
     behavior: domain
-    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/category-ads-all.yaml
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/category-ads-all.yaml
     path: ./rule_providers/domain_category-ads-all.yaml
     interval: 86400
   domain_cn:
     type: http
     behavior: domain
-    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/cn.yaml
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/cn.yaml
     path: ./rule_providers/domain_cn.yaml
     interval: 86400
   domain_youtube:
     type: http
     behavior: domain
-    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/youtube.yaml
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/youtube.yaml
     path: ./rule_providers/domain_youtube.yaml
     interval: 86400
   domain_github:
     type: http
     behavior: domain
-    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/github.yaml
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/github.yaml
     path: ./rule_providers/domain_github.yaml
     interval: 86400
   domain_cloudflare:
     type: http
     behavior: domain
-    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/cloudflare.yaml
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/cloudflare.yaml
     path: ./rule_providers/domain_cloudflare.yaml
     interval: 86400
   domain_openai:
     type: http
     behavior: domain
-    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/openai.yaml
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/openai.yaml
     path: ./rule_providers/domain_openai.yaml
     interval: 86400
   ipcidr_hk:
     type: http
     behavior: ipcidr
-    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/hk.yaml
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/hk.yaml
     path: ./rule_providers/ipcidr_hk.yaml
     interval: 86400
   ipcidr_cn:
     type: http
     behavior: ipcidr
-    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/cn.yaml
+    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/cn.yaml
     path: ./rule_providers/ipcidr_cn.yaml
     interval: 86400
 rules:
