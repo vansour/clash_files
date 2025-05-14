@@ -1,4 +1,4 @@
-#update time: 2025/05/08
+#update time: 2025-05-14
 mixed-port: 7890
 allow-lan: false
 bind-address: "*"
@@ -28,46 +28,59 @@ dns:
   nameserver-policy: {}
   respect-rules: true
 proxy-providers:
-  hkpre:
+  vansour:
     type: http
-    url: https://sub.vansour.top/hkpre
-    path: ./proxy_providers/hkpre.yaml
+    url: https://sub.vansour.top/vansour
+    path: ./proxy_providers/vansour.yaml
     interval: 1800
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 300
-  uspre:
+  主用 01:
     type: http
-    url: https://sub.vansour.top/uspre
-    path: ./proxy_providers/uspre.yaml
+    url: https://sub.vansour.top/vansour
+    filter: 主用 01
+    path: ./proxy_providers/vansour.yaml
     interval: 1800
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 300
-  usord:
+  主用 02:
     type: http
-    url: https://sub.vansour.top/usord
-    path: ./proxy_providers/usord.yaml
+    url: https://sub.vansour.top/vansour
+    filter: 主用 02
+    path: ./proxy_providers/vansour.yaml
     interval: 1800
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 300
-  V1:
+  主用 03:
     type: http
-    url: https://sub.vansour.top/v1
-    path: ./proxy_providers/v1.yaml
+    url: https://sub.vansour.top/vansour
+    filter: 主用 03
+    path: ./proxy_providers/vansour.yaml
     interval: 1800
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 300
-  V2:
+  主用 04:
     type: http
-    url: https://sub.vansour.top/v2
-    path: ./proxy_providers/v2.yaml
+    url: https://sub.vansour.top/vansour
+    filter: 主用 04
+    path: ./proxy_providers/vansour.yaml
+    interval: 1800
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+  quickcat:
+    type: http
+    url: https://sub.vansour.top/quickcat
+    path: ./proxy_providers/quickcat.yaml
     interval: 1800
     health-check:
       enable: true
@@ -77,92 +90,95 @@ proxy-groups:
   - name: MainNode
     type: select
     use:
-      - V1
+      - vansour
     proxies:
-      - 主用 03 美国 00
-      - 主用 03 英国 00
-      - 主用 03 香港 00
-      - 主用 03 日本 00
-      - 主用 03 韩国 00
-      - 主用 03 新加坡 00
+      - 主用 05 美国 00
+      - 主用 05 英国 00
+      - 主用 05 香港 00
+      - 主用 05 日本 00
+      - 主用 05 韩国 00
+      - 主用 05 新加坡 00
   - name: Youtube
     type: select
     proxies:
-      - 主用 03 美国 00
-      - 主用 03 英国 00
-      - 主用 03 香港 00
-      - 主用 03 日本 00
-      - 主用 03 韩国 00
-      - 主用 03 新加坡 00
+      - 主用 05 美国 00
+      - 主用 05 英国 00
+      - 主用 05 香港 00
+      - 主用 05 日本 00
+      - 主用 05 韩国 00
+      - 主用 05 新加坡 00
   - name: Github
     type: select
     use:
-      - hkpre
-      - uspre
+      - 主用 01
   - name: Cloudflare
     type: select
     use:
-      - hkpre
-      - uspre
+      - 主用 01
   - name: Openai
     type: select
     use:
-      - uspre
+      - 主用 01
   - name: HK
     type: select
-    use:
-      - hkpre
     proxies:
+      - 香港
       - MainNode
-  - name: 主用 03 美国 00
+  - name: 香港
+    type: select
+    use:
+      - vansour
+    filter: 香港
+    hidden: true
+  - name: 主用 05 美国 00
     type: load-balance
     use:
-      - V2
+      - quickcat
     filter: 美国
     url: http://www.gstatic.com/generate_204
     interval: 300
     strategy: round-robin
     hidden: true
-  - name: 主用 03 英国 00
+  - name: 主用 05 英国 00
     type: load-balance
     use:
-      - V2
+      - quickcat
     filter: 英国
     url: http://www.gstatic.com/generate_204
     interval: 300
     strategy: round-robin
     hidden: true
-  - name: 主用 03 香港 00
+  - name: 主用 05 香港 00
     type: load-balance
     use:
-      - V2
+      - quickcat
     filter: 香港
     url: http://www.gstatic.com/generate_204
     interval: 300
     strategy: round-robin
     hidden: true
-  - name: 主用 03 日本 00
+  - name: 主用 05 日本 00
     type: load-balance
     use:
-      - V2
+      - quickcat
     filter: 日本
     url: http://www.gstatic.com/generate_204
     interval: 300
     strategy: round-robin
     hidden: true
-  - name: 主用 03 韩国 00
+  - name: 主用 05 韩国 00
     type: load-balance
     use:
-      - V2
+      - quickcat
     filter: 韩国
     url: http://www.gstatic.com/generate_204
     interval: 300
     strategy: round-robin
     hidden: true
-  - name: 主用 03 新加坡 00
+  - name: 主用 05 新加坡 00
     type: load-balance
     use:
-      - V2
+      - quickcat
     filter: 新加坡
     url: http://www.gstatic.com/generate_204
     interval: 300
@@ -172,49 +188,49 @@ rule-providers:
   domain_category-ads-all:
     type: http
     behavior: domain
-    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/category-ads-all.yaml
+    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/category-ads-all.yaml
     path: ./rule_providers/domain_category-ads-all.yaml
     interval: 86400
   domain_cn:
     type: http
     behavior: domain
-    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/cn.yaml
+    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/cn.yaml
     path: ./rule_providers/domain_cn.yaml
     interval: 86400
   domain_youtube:
     type: http
     behavior: domain
-    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/youtube.yaml
+    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/youtube.yaml
     path: ./rule_providers/domain_youtube.yaml
     interval: 86400
   domain_github:
     type: http
     behavior: domain
-    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/github.yaml
+    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/github.yaml
     path: ./rule_providers/domain_github.yaml
     interval: 86400
   domain_cloudflare:
     type: http
     behavior: domain
-    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/cloudflare.yaml
+    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/cloudflare.yaml
     path: ./rule_providers/domain_cloudflare.yaml
     interval: 86400
   domain_openai:
     type: http
     behavior: domain
-    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/openai.yaml
+    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geosite/openai.yaml
     path: ./rule_providers/domain_openai.yaml
     interval: 86400
   ipcidr_hk:
     type: http
     behavior: ipcidr
-    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/hk.yaml
+    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/hk.yaml
     path: ./rule_providers/ipcidr_hk.yaml
     interval: 86400
   ipcidr_cn:
     type: http
     behavior: ipcidr
-    url: https://dl.vansour.top/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/cn.yaml
+    url: https://gh-proxy.com/https://raw.githubusercontent.com/vansour/geo-rules/refs/heads/main/geo/geoip/cn.yaml
     path: ./rule_providers/ipcidr_cn.yaml
     interval: 86400
 rules:
