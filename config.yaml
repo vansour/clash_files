@@ -67,16 +67,6 @@ proxy-providers:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 300
-  主用 04:
-    type: http
-    url: https://sub.vansour.top/vansour
-    filter: 主用 04
-    path: ./proxy_providers/vansour.yaml
-    interval: 1800
-    health-check:
-      enable: true
-      url: http://www.gstatic.com/generate_204
-      interval: 300
   quickcat:
     type: http
     url: https://sub.vansour.top/quickcat
